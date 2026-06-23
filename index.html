@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sesión 18: Maquetación Avanzada con CSS Grid, Media Queries y Bootstrap — IDAT</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            idatYellow: '#FFC820',
+            idatDark: '#111827',
+            idatMuted: '#4B5563',
+            idatLight: '#F3F4F6'
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .slide-container {
+      perspective: 1000px;
+    }
+    .slide {
+      transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      opacity: 0;
+      transform: scale(0.98) translateY(6px);
+      display: none;
+    }
+    .slide.active {
+      display: flex;
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #1f2937;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #4b5563;
+      border-radius: 3px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #FFC820;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 text-idatDark font-sans h-screen flex flex-col justify-between overflow-hidden select-none">
+
+  <!-- ============================================== -->
+  <!-- HEADER CORPORATIVO SUPERIOR -->
+  <!-- ============================================== -->
+  <header class="bg-idatDark text-white px-6 md:px-12 py-3 flex items-center justify-between border-b-4 border-idatYellow shadow-md h-[72px] flex-shrink-0 z-50">
+    <div class="flex items-center gap-3">
+      <div class="bg-idatYellow text-idatDark font-black px-3 py-1 rounded text-lg tracking-wider">IDAT</div>
+      <div class="h-6 w-[1px] bg-gray-600 hidden md:block"></div>
+      <div class="hidden md:block">
+        <span class="text-xs text-idatYellow font-bold tracking-widest block uppercase">Desarrollo Web: HTML & CSS</span>
+        <span class="text-sm font-semibold">Sesión 18: Grid, Media Queries y Bootstrap</span>
+      </div>
+    </div>
+    <div class="text-right text-xs md:text-sm font-medium text-gray-300">
+      Docente: <strong class="text-idatYellow">Ing. Jhon Chavez</strong>
+    </div>
+  </header>
+
+  <!-- ============================================== -->
+  <!-- ÁREA DE DIAPOSITIVAS INTERACTIVAS (ALTURA MÁXIMA) -->
+  <!-- ============================================== -->
+  <main class="flex-1 p-4 md:p-6 overflow-hidden flex items-center justify-center">
+    <div class="w-full max-w-6xl h-full flex items-stretch justify-center slide-container">
+
+      <!-- DIAPOSITIVA 1: Portada (Sesión 18) -->
+      <div id="slide-1" class="slide active w-full bg-white rounded-3xl shadow-xl border border-gray-200 overflow-hidden flex-col md:flex-row h-full">
+        <!-- Panel Izquierdo Amarillo -->
+        <div class="md:w-5/12 bg-idatYellow p-8 md:p-12 flex flex-col justify-between relative overflow-hidden h-full flex-shrink-0">
+          <div class="absolute -right-16 -top-16 w-48 h-48 bg-white/10 rounded-full blur-2xl"></div>
+          <div>
+            <span class="bg-idatDark text-idatYellow font-black px-4 py-1.5 rounded-full text-xs tracking-widest uppercase">SESIÓN 18</span>
+            <h1 class="text-4xl md:text-5xl font-black text-idatDark mt-6 leading-tight">Layouts Profesionales</h1>
+            <p class="text-idatDark/80 font-medium mt-3 text-sm md:text-base">Dominando las rejillas 2D de CSS Grid, la adaptabilidad con Media Queries y la velocidad de Bootstrap.</p>
+          </div>
+          <div class="border-t border-idatDark/20 pt-6">
+            <span class="text-xs font-bold uppercase tracking-wider text-idatDark/60 block">Facilitador del curso:</span>
+            <span class="text-xl font-extrabold text-idatDark block mt-1">Ing. Jhon Chavez</span>
+            <span class="text-xs font-semibold bg-idatDark/10 text-idatDark px-2 py-0.5 rounded mt-2 inline-block">IDAT © 2026</span>
+          </div>
+        </div>
+        <!-- Panel Derecho Informativo -->
+        <div class="md:w-7/12 p-8 md:p-12 flex flex-col justify-center bg-radial-at-tr from-gray-50 to-white h-full overflow-y-auto">
+          <h2 class="text-2xl md:text-3xl font-bold text-idatDark mb-4">La Trilogía del Diseño Frontend Responsivo</h2>
+          <p class="text-gray-600 mb-8 leading-relaxed text-sm md:text-base">
+            ¡Bienvenidos a la semana 18! En esta sesión uniremos las tres herramientas definitivas de maquetación avanzada. Aprenderemos a estructurar con **CSS Grid**, adaptarás la interfaz a cualquier dispositivo móvil con **Media Queries** y acelerarás tus tiempos de entrega utilizando el framework líder de la industria: **Bootstrap**.
+          </p>
+          <div class="grid grid-cols-3 gap-3">
+            <div class="bg-idatLight p-4 rounded-2xl border border-gray-200">
+              <span class="text-2xl mb-1 block">📊</span>
+              <h3 class="font-bold text-xs text-idatDark">1. CSS Grid</h3>
+              <p class="text-[10px] text-idatMuted mt-1">Estructuración y control bidimensional de plantillas.</p>
+            </div>
+            <div class="bg-idatLight p-4 rounded-2xl border border-gray-200">
+              <span class="text-2xl mb-1 block">📱</span>
+              <h3 class="font-bold text-xs text-idatDark">2. Media Queries</h3>
+              <p class="text-[10px] text-idatMuted mt-1">Reglas de ruptura y adaptación a pantallas.</p>
+            </div>
+            <div class="bg-idatLight p-4 rounded-2xl border border-gray-200">
+              <span class="text-2xl mb-1 block">⚡</span>
+              <h3 class="font-bold text-xs text-idatDark">3. Bootstrap</h3>
+              <p class="text-[10px] text-idatMuted mt-1">Sistema de rejilla de 12 columnas rápido.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DIAPOSITIVA 2: Agenda de la Sesión -->
+      <div id="slide-2" class="slide w-full bg-white rounded-3xl shadow-xl border border-gray-200 p-8 md:p-12 flex-col justify-between h-full">
+        <div class="flex flex-col justify-between h-full">
+          <div>
+            <div class="flex items-center gap-2 mb-3">
+              <span class="bg-idatYellow text-idatDark font-bold px-2.5 py-0.5 rounded text-xs">RUTA DE APRENDIZAJE</span>
+              <h2 class="text-2xl font-black text-idatDark uppercase tracking-tight">Agenda de la Sesión 18</h2>
+            </div>
+            <p class="text-sm text-idatMuted mb-6">El mapa de ruta metodológica diseñado para la clase de hoy:</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- Grid -->
+              <div class="flex gap-4 p-5 rounded-2xl bg-idatLight border-l-4 border-idatYellow items-start">
+                <span class="font-extrabold text-idatYellow text-2xl leading-none">01</span>
+                <div>
+                  <h3 class="font-bold text-sm md:text-base text-idatDark">CSS Grid (2D)</h3>
+                  <p class="text-xs text-idatMuted mt-1">Dominio de filas, columnas, espaciados y fracciones (fr).</p>
+                </div>
+              </div>
+              <!-- Media Queries -->
+              <div class="flex gap-4 p-5 rounded-2xl bg-idatLight border-l-4 border-idatDark items-start">
+                <span class="font-extrabold text-idatDark text-2xl leading-none">02</span>
+                <div>
+                  <h3 class="font-bold text-sm md:text-base text-idatDark">Media Queries Mobile-First</h3>
+                  <p class="text-xs text-idatMuted mt-1">Filosofía Mobile-First, min-width en 1020px y escalado progresivo.</p>
+                </div>
+              </div>
+              <!-- Bootstrap -->
+              <div class="flex gap-4 p-5 rounded-2xl bg-idatLight border-l-4 border-idatYellow items-start">
+                <span class="font-extrabold text-idatYellow text-2xl leading-none">03</span>
+                <div>
+                  <h3 class="font-bold text-sm md:text-base text-idatDark">Framework Bootstrap</h3>
+                  <p class="text-xs text-idatMuted mt-1">CDN, arquitectura de clases contenedoras, renglones y la grilla de 12 unidades.</p>
+                </div>
+              </div>
+              <!-- Retos y Comparativas -->
+              <div class="flex gap-4 p-5 rounded-2xl bg-idatLight border-l-4 border-idatDark items-start">
+                <span class="font-extrabold text-idatDark text-2xl leading-none">04</span>
+                <div>
+                  <h3 class="font-bold text-sm md:text-base text-idatDark">Toma de Decisiones y Talleres</h3>
+                  <p class="text-xs text-idatMuted mt-1">Cómo y cuándo elegir cada sistema para proyectos del mundo real.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 pt-4 border-t border-gray-100 flex justify-between items-center text-xs text-idatMuted flex-shrink-0">
+            <span>Metodología por proyectos IDAT</span>
+            <span class="font-semibold text-idatDark">Teoría de alto nivel + Sandboxes en vivo</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DIAPOSITIVA 3: CSS Grid - Concepto Teórico -->
+      <div id="slide-3" class="slide w-full bg-white rounded-3xl shadow-xl border border-gray-200 p-8 md:p-12 flex-col justify-between h-full">
+        <div class="flex flex-col justify-between h-full">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center gap-2">
+                <span class="bg-idatYellow text-idatDark font-bold px-2.5 py-0.5 rounded text-xs">TEMA 1</span>
+                <h2 class="text-2xl font-black text-idatDark uppercase tracking-tight">Estructuración Bidimensional con CSS Grid</h2>
+              </div>
+              <span class="text-xs text-idatMuted font-bold uppercase">Maquetación 2D</span>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch mt-4">
+              <div class="md:col-span-5 flex flex-col justify-center pr-2">
+                <p class="text-sm md:text-base text-gray-600 leading-relaxed mb-4">
+                  A diferencia de los modelos lineales de bloque o Flexbox, **CSS Grid Layout** opera de manera **bidimensional**, permitiéndote controlar simultáneamente las filas y columnas de un contenedor mediante código.
+                </p>
+                <div class="space-y-3">
+                  <div class="bg-gray-50 p-2.5 rounded border-l-4 border-idatDark text-xs">
+                    <strong>Contenedor Grid:</strong> Se activa declarando <code>display: grid;</code>. Define una matriz espacial para sus hijos directos.
+                  </div>
+                  <div class="bg-gray-50 p-2.5 rounded border-l-4 border-idatYellow text-xs">
+                    <strong>Unidad fr (Fraction):</strong> Una unidad de medida flexible que representa una fracción del espacio libre disponible.
+                  </div>
+                  <div class="bg-gray-50 p-2.5 rounded border-l-4 border-blue-500 text-xs">
+                    <strong>gap:</strong> Propiedad para definir el espaciado (canaleta) físico entre las filas y columnas de la rejilla.
+                  </div>
+                </div>
+              </div>
+              <div class="md:col-span-7 bg-idatDark text-gray-100 rounded-2xl p-6 font-mono text-xs md:text-sm overflow-auto custom-scrollbar shadow-inner relative flex flex-col justify-center min-h-[220px]">
+                <div class="absolute right-3 top-3 text-[10px] text-gray-400 bg-gray-800 px-2 py-0.5 rounded font-sans uppercase">Sintaxis de Rejilla</div>
+                <div class="space-y-1">
+                  <pre class="text-yellow-400">.contenedor-grid {</pre>
+                  <pre class="text-blue-400">  display<span class="text-white">: grid;</span></pre>
+                  <pre class="text-blue-400">  grid-template-columns<span class="text-white">: 1fr 2fr 1fr;</span> <span class="text-gray-500">/* 3 columnas */</span></pre>
+                  <pre class="text-blue-400">  grid-template-rows<span class="text-white">: auto;</span></pre>
+                  <pre class="text-blue-400">  gap<span class="text-white">: 16px;</span> <span class="text-gray-500">/* Espaciado de celdas */</span></pre>
+                  <pre class="text-yellow-400">}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-xs text-idatMuted border-t border-gray-100 pt-3 flex justify-between flex-shrink-0">
+            <span>Dato clave: CSS Grid permite reordenar el layout visual sin tocar el código fuente del documento HTML.</span>
+            <span>Maquetación Fluida</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DIAPOSITIVA 4: CSS Grid - Ejemplo Interactivo -->
+      <div id="slide-4" class="slide w-full bg-white rounded-3xl shadow-xl border border-gray-200 p-8 md:p-12 flex-col justify-between h-full">
+        <div class="flex flex-col h-full justify-between">
+          <div class="flex items-center justify-between mb-4 flex-shrink-0">
+            <div class="flex items-center gap-2">
+              <span class="bg-idatYellow text-idatDark font-bold px-2.5 py-0.5 rounded text-xs">EJEMPLO 1</span>
+              <h2 class="text-xl font-black text-idatDark uppercase tracking-tight">Plantillas de Columnas en CSS Grid</h2>
+            </div>
+            <span class="text-xs text-idatMuted font-bold uppercase">Sandbox de Rejilla</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch flex-1 min-h-0 my-2">
+            <!-- Izquierda: Selectores de propiedades -->
+            <div class="text-sm flex flex-col justify-between bg-idatLight p-5 rounded-2xl border border-gray-200">
+              <div class="space-y-4">
+                <p class="text-idatDark/80 leading-relaxed text-xs">
+                  Modifica la estructura de las columnas del contenedor de la rejilla. Mira cómo los elementos hijos se reposicionan y reajustan de forma automática y simétrica en base al plano de fracciones (fr).
+                </p>
+                
+                <!-- Propiedad: grid-template-columns -->
+                <div class="space-y-2">
+                  <span class="text-[10px] font-black text-idatDark uppercase block mb-1">Estructura (grid-template-columns):</span>
+                  <div class="flex flex-col gap-1.5 text-xs">
+                    <button onclick="updateGridLayout('repeat(3, 1fr)', 'btn-g-3')" id="btn-g-3" class="bg-idatDark text-white p-2.5 rounded-xl font-bold transition-all text-left">1. repeat(3, 1fr) — Tres columnas iguales</button>
+                    <button onclick="updateGridLayout('1fr 2fr 1fr', 'btn-g-mixed')" id="btn-g-mixed" class="bg-white border border-gray-200 text-idatDark p-2.5 rounded-xl font-bold hover:bg-gray-50 transition-all text-left">2. 1fr 2fr 1fr — Columna central doble</button>
+                    <button onclick="updateGridLayout('repeat(2, 1fr)', 'btn-g-2')" id="btn-g-2" class="bg-white border border-gray-200 text-idatDark p-2.5 rounded-xl font-bold hover:bg-gray-50 transition-all text-left">3. repeat(2, 1fr) — Dos columnas iguales</button>
+                  </div>
+                </div>
+              </div>
+              <div class="bg-white p-3 rounded-xl border border-gray-200 mt-2 text-center text-[11px]">
+                <span class="text-[9px] font-bold text-gray-400 block uppercase">Regla CSS de Rejilla Activa:</span>
+                <code class="font-mono text-idatDark font-bold block" id="lbl-grid-css">grid-template-columns: repeat(3, 1fr);</code>
+              </div>
+            </div>
+
+            <!-- Derecha: El contenedor del renderizado simulado -->
+            <div class="border border-gray-200 rounded-2xl overflow-hidden shadow-sm flex flex-col bg-white h-full min-h-[340px] md:h-auto">
+              <div class="bg-gray-100 px-4 py-2 flex justify-between items-center border-b border-gray-200 flex-shrink-0">
+                <span class="text-xs font-bold text-idatDark">Rejilla Bidimensional (display: grid; gap: 12px;)</span>
+                <span class="w-3 h-3 rounded-full bg-green-500"></span>
+              </div>
+              
+              <div class="p-6 flex-1 flex items-center justify-center bg-gray-50/50">
+                <!-- El contenedor grid de pruebas -->
+                <div id="slide4-grid-container" class="w-full bg-white border border-gray-200 rounded-2xl p-4 grid gap-3 transition-all duration-300" style="grid-template-columns: repeat(3, 1fr);">
+                  <div class="bg-idatDark text-white font-black p-3 rounded-lg shadow-sm text-xs text-center flex items-center justify-center h-14">Caja A</div>
+                  <div class="bg-idatYellow text-idatDark font-black p-3 rounded-lg shadow-sm text-xs text-center flex items-center justify-center h-14">Caja B</div>
+                  <div class="bg-idatDark text-white font-black p-3 rounded-lg shadow-sm text-xs text-center flex items-center justify-center h-14">Caja C</div>
+                  <div class="bg-idatYellow text-idatDark font-black p-3 rounded-lg shadow-sm text-xs text-center flex items-center justify-center h-14">Caja D</div>
+                  <div class="bg-idatDark text-white font-black p-3 rounded-lg shadow-sm text-xs text-center flex items-center justify-center h-14">Caja E</div>
+                  <div class="bg-idatYellow text-idatDark font-black p-3 rounded-lg shadow-sm text-xs text-center flex items-center justify-center h-14">Caja F</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DIAPOSITIVA 5: Media Queries - Concepto Teórico (Mobile-First y 1020px) -->
+      <div id="slide-5" class="slide w-full bg-white rounded-3xl shadow-xl border border-gray-200 p-8 md:p-12 flex-col justify-between h-full">
+        <div class="flex flex-col justify-between h-full">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center gap-2">
+                <span class="bg-idatYellow text-idatDark font-bold px-2.5 py-0.5 rounded text-xs">TEMA 2</span>
+                <h2 class="text-2xl font-black text-idatDark uppercase tracking-tight">Media Queries con Filosofía Mobile-First</h2>
+              </div>
+              <span class="text-xs text-idatMuted font-bold uppercase">Maquetación Adaptativa</span>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch mt-4">
+              <div class="md:col-span-5 flex flex-col justify-center pr-2">
+                <p class="text-sm md:text-base text-gray-600 leading-relaxed mb-4">
+                  En la metodología **Mobile-First**, la maquetación se define inicialmente para dispositivos móviles (pantalla estrecha) y se escala progresivamente hacia pantallas de escritorio usando condiciones <code>min-width</code>.
+                </p>
+                <div class="space-y-3">
+                  <div class="bg-gray-50 p-2.5 rounded border-l-4 border-idatDark text-xs">
+                    <strong>Código Base (Móvil):</strong> Todo el CSS fuera de las Media Queries se escribe asumiendo una visualización en una sola columna vertical.
+                  </div>
+                  <div class="bg-gray-50 p-2.5 rounded border-l-4 border-idatYellow text-xs">
+                    <strong>Punto de ruptura min-width: 1020px:</strong> Al cruzar este límite, el navegador inyecta propiedades adicionales para reorganizar y expandir las columnas horizontalmente en pantallas anchas.
+                  </div>
+                  <div class="bg-gray-50 p-2.5 rounded border-l-4 border-blue-500 text-xs">
+                    <strong>Ventaja técnica:</strong> Reduce drásticamente la redundancia de código y optimiza el rendimiento del renderizado en dispositivos portátiles.
+                  </div>
+                </div>
+              </div>
+              <div class="md:col-span-7 bg-idatDark text-gray-100 rounded-2xl p-6 font-mono text-xs md:text-sm overflow-auto custom-scrollbar shadow-inner relative flex flex-col justify-center min-h-[220px]">
+                <div class="absolute right-3 top-3 text-[10px] text-gray-400 bg-gray-800 px-2 py-0.5 rounded font-sans uppercase">Sintaxis Mobile-First</div>
+                <div class="space-y-2">
+                  <p class="text-xs text-gray-400">// 1. Estilos por defecto (Para móviles y tablets pequeñas)</p>
+                  <pre class="text-yellow-400">.grupo-elementos {</pre>
+                  <pre class="text-blue-400">  display<span class="text-white">: flex;</span></pre>
+                  <pre class="text-blue-400">  flex-direction<span class="text-white">: column;</span> <span class="text-gray-500">/* Flujo apilado verticalmente */</span></pre>
+                  <pre class="text-yellow-400">}</pre>
+                  
+                  <p class="text-xs text-gray-400 mt-2">// 2. Ampliación progresiva para pantallas grandes</p>
+                  <pre class="text-yellow-400"><span class="text-red-400">@media</span> (min-width: 1020px) {</pre>
+                  <pre class="text-blue-400">  .grupo-elementos {</pre>
+                  <pre class="text-blue-400">    flex-direction<span class="text-white">: row;</span> <span class="text-gray-500">/* Se amplía a formato horizontal */</span></pre>
+                  <pre class="text-blue-400">  }</pre>
+                  <pre class="text-yellow-400">}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-xs text-idatMuted border-t border-gray-100 pt-3 flex justify-between flex-shrink-0">
+            <span>Dato técnico: Al utilizar Mobile-First, la condición "min-width: 1020px" solo se gatillará si el viewport es igual o superior a dicho ancho.</span>
+            <span>Mobile Ready</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DIAPOSITIVA 6: Media Queries - Ejemplo Interactivo (Mobile-First y 1020px) -->
+      <div id="slide-6" class="slide w-full bg-white rounded-3xl shadow-xl border border-gray-200 p-8 md:p-12 flex-col justify-between h-full">
+        <div class="flex flex-col h-full justify-between">
+          <div class="flex items-center justify-between mb-4 flex-shrink-0">
+            <div class="flex items-center gap-2">
+              <span class="bg-idatYellow text-idatDark font-bold px-2.5 py-0.5 rounded text-xs">EJEMPLO 2</span>
+              <h2 class="text-xl font-black text-idatDark uppercase tracking-tight">Simulador Mobile-First con min-width</h2>
+            </div>
+            <span class="text-xs text-idatMuted font-bold uppercase">Sandbox Responsivo</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch flex-1 min-h-0 my-2">
+            <!-- Izquierda: Selectores de dispositivo -->
+            <div class="text-sm flex flex-col justify-between bg-idatLight p-5 rounded-2xl border border-gray-200">
+              <div class="space-y-4">
+                <p class="text-idatDark/80 leading-relaxed text-xs">
+                  Interactúa con los controles para cambiar el ancho de pantalla del simulador. Observa cómo, bajo el patrón <strong>Mobile-First</strong>, las columnas se mantienen apiladas verticalmente de forma predeterminada hasta que el ancho supera los <strong>1020px</strong>, expandiendo la interfaz horizontalmente.
+                </p>
+                
+                <!-- Selector de Viewport -->
+                <div class="space-y-2">
+                  <span class="text-[10px] font-black text-idatDark uppercase block mb-1">Simular Ancho del Viewport:</span>
+                  <div class="flex flex-col gap-2">
+                    <button onclick="updateMediaQuerySimulator('mobile', 'btn-mq-mobile')" id="btn-mq-mobile" class="bg-idatDark text-white p-2.5 rounded-xl font-bold transition-all text-left flex justify-between items-center">
+                      <span>📱 Móvil (Simula Ancho Base < 768px)</span>
+                      <span class="text-[9px] bg-red-100 text-red-800 px-1.5 py-0.5 rounded uppercase font-bold">1 col</span>
+                    </button>
+                    <button onclick="updateMediaQuerySimulator('tablet', 'btn-mq-tablet')" id="btn-mq-tablet" class="bg-white border border-gray-200 text-idatDark p-2.5 rounded-xl font-bold transition-all text-left flex justify-between items-center">
+                      <span>📟 Tablet (Simula Ancho 768px - 1019px)</span>
+                      <span class="text-[9px] bg-blue-100 text-blue-800 px-1.5 py-0.5 rounded uppercase font-bold">2 cols</span>
+                    </button>
+                    <button onclick="updateMediaQuerySimulator('desktop', 'btn-mq-desktop')" id="btn-mq-desktop" class="bg-white border border-gray-200 text-idatDark p-2.5 rounded-xl font-bold transition-all text-left flex justify-between items-center">
+                      <span>💻 Escritorio Ampliado (Ancho >= 1020px)</span>
+                      <span class="text-[9px] bg-green-100 text-green-800 px-1.5 py-0.5 rounded uppercase font-bold">3 cols (Row)</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="bg-white p-3 rounded-xl border border-gray-200 mt-2 text-center text-[11px]">
+                <span class="text-[9px] font-bold text-gray-400 block uppercase">Regla de Media Query Aplicada:</span>
+                <code class="font-mono text-idatDark font-bold block whitespace-pre-line text-left leading-normal" id="lbl-mq-css">/* Estilo Base (Móvil por defecto) */
+.layout { flex-direction: column; }</code>
+              </div>
+            </div>
+
+            <!-- Derecha: El contenedor de Viewport simulado -->
+            <div class="border border-gray-200 rounded-2xl overflow-hidden shadow-sm flex flex-col bg-white h-full min-h-[340px] md:h-auto">
+              <div class="bg-gray-100 px-4 py-2 flex justify-between items-center border-b border-gray-200 flex-shrink-0">
+                <span class="text-xs font-bold text-idatDark">Área de Visualización de Pantalla Simulada</span>
+                <span class="w-3 h-3 rounded-full bg-green-500"></span>
+              </div>
+              
+              <div class="p-4 flex-1 flex flex-col items-center justify-center bg-gray-50/50">
+                <!-- Marco del Viewport Simulado -->
+                <div id="slide6-viewport-sim" class="border border-dashed border-gray-300 p-3 bg-white rounded-xl shadow transition-all duration-300 w-full" style="max-width: 280px;">
+                  <div class="text-[9px] text-gray-400 text-center uppercase mb-2 font-mono font-bold" id="lbl-viewport-width">Simulando Móvil (Ancho < 768px)</div>
+                  
+                  <div id="slide6-layout" class="flex flex-col gap-3 w-full justify-center">
+                    <div class="bg-idatYellow text-idatDark font-black p-2 rounded-lg text-[10px] text-center w-full h-14 flex items-center justify-center">Producto A</div>
+                    <div class="bg-idatDark text-white font-black p-2 rounded-lg text-[10px] text-center w-full h-14 flex items-center justify-center">Producto B</div>
+                    <div class="bg-idatYellow text-idatDark font-black p-2 rounded-lg text-[10px] text-center w-full h-14 flex items-center justify-center">Producto C</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DIAPOSITIVA 7: Bootstrap - Concepto Teórico -->
+      <div id="slide-7" class="slide w-full bg-white rounded-3xl shadow-xl border border-gray-200 p-8 md:p-12 flex-col justify-between h-full">
+        <div class="flex flex-col justify-between h-full">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center gap-2">
+                <span class="bg-idatYellow text-idatDark font-bold px-2.5 py-0.5 rounded text-xs">TEMA 3</span>
+                <h2 class="text-2xl font-black text-idatDark uppercase tracking-tight">El Framework CSS Bootstrap</h2>
+              </div>
+              <span class="text-xs text-idatMuted font-bold uppercase">Frameworks CSS</span>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch mt-4">
+              <div class="md:col-span-5 flex flex-col justify-center pr-2">
+                <p class="text-sm md:text-base text-gray-600 leading-relaxed mb-4">
+                  **Bootstrap** es el framework de utilidades CSS más popular del mundo. Agiliza la construcción de interfaces responsivas gracias a su **sistema de grilla estructurado en 12 columnas**.
+                </p>
+                <div class="space-y-3">
+                  <div class="bg-gray-50 p-2.5 rounded border-l-4 border-idatDark text-xs">
+                    <strong>.container:</strong> Clase envolvente que centra el contenido y define el ancho máximo responsivo de la página.
+                  </div>
+                  <div class="bg-gray-50 p-2.5 rounded border-l-4 border-idatYellow text-xs">
+                    <strong>.row (Renglón):</strong> Crea una fila flexible horizontal. Actúa como el contenedor de las columnas Bootstrap.
+                  </div>
+                  <div class="bg-gray-50 p-2.5 rounded border-l-4 border-blue-500 text-xs">
+                    <strong>.col-* (Columnas de 12 Unidades):</strong> Define el espacio de ancho de un elemento sobre una base de 12 unidades (ej: <code>col-md-4</code> ocupa 4 de 12 unidades, es decir, el 33.3%).
+                  </div>
+                </div>
+              </div>
+              <div class="md:col-span-7 bg-idatDark text-gray-100 rounded-2xl p-6 font-mono text-xs md:text-sm overflow-auto custom-scrollbar shadow-inner relative flex flex-col justify-center min-h-[220px]">
+                <div class="absolute right-3 top-3 text-[10px] text-gray-400 bg-gray-800 px-2 py-0.5 rounded font-sans uppercase">Sintaxis de Bootstrap Grid</div>
+                <div class="space-y-1">
+                  <pre class="text-yellow-400">&lt;<span class="text-blue-400">div</span> <span class="text-green-400">class</span>="container"&gt;</pre>
+                  <pre class="text-yellow-400">  &lt;<span class="text-blue-400">div</span> <span class="text-green-400">class</span>="row"&gt;</pre>
+                  <pre class="text-yellow-400">    &lt;<span class="text-blue-400">div</span> <span class="text-green-400">class</span>="col-md-6"&gt;Izquierda (50%)&lt;/<span class="text-blue-400">div</span>&gt;</pre>
+                  <pre class="text-yellow-400">    &lt;<span class="text-blue-400">div</span> <span class="text-green-400">class</span>="col-md-6"&gt;Derecha (50%)&lt;/<span class="text-blue-400">div</span>&gt;</pre>
+                  <pre class="text-yellow-400">  &lt;/<span class="text-blue-400">div</span>&gt;</pre>
+                  <pre class="text-yellow-400">&lt;/<span class="text-blue-400">div</span>&gt;</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-xs text-idatMuted border-t border-gray-100 pt-3 flex justify-between flex-shrink-0">
+            <span>Dato clave: El sistema de grilla de Bootstrap utiliza Flexbox en su núcleo de renderizado para gestionar los alineamientos de las columnas.</span>
+            <span>Estándares de Frontend</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DIAPOSITIVA 8: Bootstrap - Ejemplo Interactivo -->
+      <div id="slide-8" class="slide w-full bg-white rounded-3xl shadow-xl border border-gray-200 p-8 md:p-12 flex-col justify-between h-full">
+        <div class="flex flex-col h-full justify-between">
+          <div class="flex items-center justify-between mb-4 flex-shrink-0">
+            <div class="flex items-center gap-2">
+              <span class="bg-idatYellow text-idatDark font-bold px-2.5 py-0.5 rounded text-xs">EJEMPLO 3</span>
+              <h2 class="text-xl font-black text-idatDark uppercase tracking-tight">Constructor de Grillas de Bootstrap</h2>
+            </div>
+            <span class="text-xs text-idatMuted font-bold uppercase">Sandbox de Bootstrap</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch flex-1 min-h-0 my-2">
+            <!-- Izquierda: Selectores de layout de Bootstrap -->
+            <div class="text-sm flex flex-col justify-between bg-idatLight p-5 rounded-2xl border border-gray-200">
+              <div class="space-y-4">
+                <p class="text-idatDark/80 leading-relaxed text-xs">
+                  Un renglón de Bootstrap (`.row`) se divide exactamente en **12 columnas virtuales**. Elige una estructura de la lista y observa cómo las columnas se asocian a las clases responsivas `.col-md-*`.
+                </p>
+                
+                <div class="space-y-2">
+                  <span class="text-[10px] font-black text-idatDark uppercase block mb-1">Elegir Distribución de Columnas:</span>
+                  <div class="flex flex-col gap-2">
+                    <button onclick="updateBootstrapSimulator('three-equal', 'btn-g-3col')" id="btn-g-3col" class="bg-idatDark text-white p-2.5 rounded-xl font-bold transition-all text-left flex justify-between items-center text-xs">
+                      <span>3 Columnas Iguales (.col-md-4)</span>
+                      <span class="text-[9px] font-mono">4 + 4 + 4 = 12</span>
+                    </button>
+                    <button onclick="updateBootstrapSimulator('two-equal', 'btn-g-2col')" id="btn-g-2col" class="bg-white border border-gray-200 text-idatDark p-2.5 rounded-xl font-bold hover:bg-gray-50 transition-all text-left flex justify-between items-center text-xs">
+                      <span>2 Columnas Iguales (.col-md-6)</span>
+                      <span class="text-[9px] font-mono">6 + 6 = 12</span>
+                    </button>
+                    <button onclick="updateBootstrapSimulator('asymmetric', 'btn-g-mixcol')" id="btn-g-mixcol" class="bg-white border border-gray-200 text-idatDark p-2.5 rounded-xl font-bold hover:bg-gray-50 transition-all text-left flex justify-between items-center text-xs">
+                      <span>Asimétrico (.col-md-8 y .col-md-4)</span>
+                      <span class="text-[9px] font-mono">8 + 4 = 12</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="bg-white p-3 rounded-xl border border-gray-200 mt-2 text-center text-[11px]">
+                <span class="text-[9px] font-bold text-gray-400 block uppercase">Código de Columnas Generado:</span>
+                <code class="font-mono text-idatDark font-bold block" id="lbl-boot-css">&lt;div class="col-md-4"&gt; ... &lt;/div&gt;</code>
+              </div>
+            </div>
+
+            <!-- Derecha: El contenedor del renderizado simulado -->
+            <div class="border border-gray-200 rounded-2xl overflow-hidden shadow-sm flex flex-col bg-white h-full min-h-[340px] md:h-auto">
+              <div class="bg-gray-100 px-4 py-2 flex justify-between items-center border-b border-gray-200 flex-shrink-0">
+                <span class="text-xs font-bold text-idatDark">Maquetación Fila Bootstrap (.row)</span>
+                <span class="w-3 h-3 rounded-full bg-green-500"></span>
+              </div>
+              
+              <div class="p-6 flex-1 flex flex-col justify-center items-center bg-gray-50/50">
+                <!-- Contenedor Row Simulado de Bootstrap de 100% de ancho -->
+                <div class="w-full bg-white border border-gray-200 rounded-2xl p-4 flex gap-3 transition-all duration-300" id="slide8-boot-row">
+                  <div class="bg-idatYellow text-idatDark font-black p-3 rounded-lg shadow-sm text-xs text-center flex flex-col items-center justify-center h-16 w-1/3 transition-all duration-300">
+                    <span>Caja A</span>
+                    <span class="text-[8px] opacity-75 font-mono">.col-md-4</span>
+                  </div>
+                  <div class="bg-idatDark text-white font-black p-3 rounded-lg shadow-sm text-xs text-center flex flex-col items-center justify-center h-16 w-1/3 transition-all duration-300">
+                    <span>Caja B</span>
+                    <span class="text-[8px] opacity-75 font-mono">.col-md-4</span>
+                  </div>
+                  <div class="bg-idatYellow text-idatDark font-black p-3 rounded-lg shadow-sm text-xs text-center flex flex-col items-center justify-center h-16 w-1/3 transition-all duration-300">
+                    <span>Caja C</span>
+                    <span class="text-[8px] opacity-75 font-mono">.col-md-4</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DIAPOSITIVA 9: Comparativa y Toma de Decisiones -->
+      <div id="slide-9" class="slide w-full bg-white rounded-3xl shadow-xl border border-gray-200 p-8 md:p-12 flex-col justify-between h-full">
+        <div class="flex flex-col justify-between h-full">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center gap-2">
+                <span class="bg-idatYellow text-idatDark font-bold px-2.5 py-0.5 rounded text-xs">TALLER COMPARATIVO</span>
+                <h2 class="text-2xl font-black text-idatDark uppercase tracking-tight">¿Qué herramienta elegir?</h2>
+              </div>
+              <span class="text-xs text-idatMuted font-bold uppercase">Toma de Decisiones</span>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+              <!-- Grid -->
+              <div class="bg-idatLight p-5 rounded-2xl border border-gray-200 flex flex-col justify-between">
+                <div>
+                  <h3 class="font-extrabold text-sm mb-2 text-idatDark flex items-center gap-1.5">
+                    <span>📊</span> CSS Grid Puro
+                  </h3>
+                  <p class="text-xs text-idatMuted leading-relaxed">
+                    Excelente para maquetas completamente asimétricas, galerías de mosaicos complejas, diseño de tableros y control absoluto de los ejes X e Y sin elementos de envoltura innecesarios.
+                  </p>
+                </div>
+                <div class="text-[10px] text-idatDark font-bold bg-idatYellow/25 p-2 rounded mt-3">Sugerencia: Layouts únicos y personalizados.</div>
+              </div>
+
+              <!-- Media Queries -->
+              <div class="bg-idatLight p-5 rounded-2xl border border-gray-200 flex flex-col justify-between">
+                <div>
+                  <h3 class="font-extrabold text-sm mb-2 text-idatDark flex items-center gap-1.5">
+                    <span>📱</span> Media Queries
+                  </h3>
+                  <p class="text-xs text-idatMuted leading-relaxed">
+                    Recomendado cuando necesitas micro-ajustes específicos de diseño a nivel de tipografía, visualización selectiva de elementos, o adaptaciones hiper-específicas de componentes nativos.
+                  </p>
+                </div>
+                <div class="text-[10px] text-idatDark font-bold bg-idatYellow/25 p-2 rounded mt-3">Sugerencia: Microajustes responsivos específicos.</div>
+              </div>
+
+              <!-- Bootstrap -->
+              <div class="bg-idatLight p-5 rounded-2xl border border-gray-200 flex flex-col justify-between">
+                <div>
+                  <h3 class="font-extrabold text-sm mb-2 text-idatDark flex items-center gap-1.5">
+                    <span>⚡</span> Bootstrap Grid
+                  </h3>
+                  <p class="text-xs text-idatMuted leading-relaxed">
+                    La mejor alternativa para proyectos comerciales estándar de alta velocidad. El sistema de grilla responsiva ya está pre-testeado, lo que te garantiza compatibilidad completa de navegadores de forma inmediata.
+                  </p>
+                </div>
+                <div class="text-[10px] text-idatDark font-bold bg-idatYellow/25 p-2 rounded mt-3">Sugerencia: Prototipado y lanzamientos rápidos.</div>
+              </div>
+            </div>
+          </div>
+          <div class="text-xs text-idatMuted border-t border-gray-100 pt-3 flex justify-between flex-shrink-0">
+            <span>Dato de la industria: El desarrollo frontend moderno de calidad frecuentemente hibrida CSS Grid interno con envolturas responsivas.</span>
+            <span>Buenas Prácticas</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DIAPOSITIVA 10: Cierre de Sesión / Agradecimiento -->
+      <div id="slide-10" class="slide w-full bg-idatDark rounded-3xl shadow-xl border border-gray-900 p-8 md:p-12 flex-col justify-between h-full text-white">
+        <div class="flex flex-col items-center justify-center text-center my-auto">
+          <div class="bg-idatYellow text-idatDark font-black px-6 py-2 rounded-full text-xs md:text-sm tracking-widest uppercase mb-6 animate-bounce">
+            ¡DISEÑO RESPONSIVO CUMPLIDO!
+          </div>
+          <h2 class="text-4xl md:text-5xl font-black tracking-tight text-white leading-tight">
+            Muchas Gracias por <br class="hidden md:block">su Atención
+          </h2>
+          <p class="text-gray-400 mt-4 max-w-xl text-sm md:text-base leading-relaxed">
+            La adaptabilidad y velocidad de carga diferencian un sitio profesional. ¡Nos vemos en los talleres y laboratorios en vivo de GitHub Classroom!
+          </p>
+          
+          <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-2xl">
+            <div class="bg-gray-800/80 p-5 rounded-2xl border border-gray-700 text-left">
+              <span class="text-idatYellow text-xs font-bold uppercase block tracking-wider mb-1.5">LOGRO DE LA SESIÓN</span>
+              <p class="text-xs md:text-sm text-gray-300">Hemos aprendido a estructurar grillas 2D con CSS Grid, a inyectar lógica de adaptación responsiva con Media Queries y a acelerar nuestro frontend integrando el sistema de rejilla de 12 columnas de Bootstrap.</p>
+            </div>
+            <div class="bg-gray-800/80 p-5 rounded-2xl border border-gray-700 text-left">
+              <span class="text-idatYellow text-xs font-bold uppercase block tracking-wider mb-1.5">RETO DE LA SEMANA</span>
+              <p class="text-xs md:text-sm text-gray-300">Construir una página de portafolio responsiva que use CSS Grid para la sección de proyectos y que se adapte con @media queries en un dispositivo móvil. Súbelo a tu enlace institucional de GitHub Pages.</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="mt-6 pt-4 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 w-full gap-2 flex-shrink-0">
+          <span>Ing. Jhon Chavez • <span class="text-idatYellow">Grid, Media Queries y Bootstrap</span></span>
+          <span>© 2026 IDAT. Todos los derechos reservados.</span>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ============================================== -->
+  <!-- FOOTER DE NAVEGACIÓN & CONTROLES -->
+  <!-- ============================================== -->
+  <footer class="bg-white border-t border-gray-200 px-6 md:px-12 py-3 flex flex-col md:flex-row items-center justify-between gap-4 h-auto md:h-[72px] flex-shrink-0 z-50">
+    <!-- Indicador de Paginación Izquierda -->
+    <div class="flex items-center gap-3">
+      <span class="text-xs text-idatMuted font-bold tracking-wider uppercase">Progreso actual:</span>
+      <div class="flex items-center gap-1.5 bg-idatLight border border-gray-200 rounded-full px-3 py-1 text-xs font-black text-idatDark">
+        <span id="current-slide-num">1</span> / <span id="total-slides-num">10</span>
+      </div>
+    </div>
+
+    <!-- Navegador Central de Botones -->
+    <div class="flex items-center gap-2">
+      <button id="btn-prev" onclick="changeSlide(-1)" class="bg-idatDark hover:bg-idatYellow hover:text-idatDark text-white p-2.5 rounded-full transition-all duration-200 shadow disabled:opacity-30 disabled:pointer-events-none" title="Diapositiva Anterior">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+      </button>
+      
+      <!-- Puntos de ubicación rápida -->
+      <div class="flex items-center gap-1.5 px-2" id="dots-container"></div>
+
+      <button id="btn-next" onclick="changeSlide(1)" class="bg-idatDark hover:bg-idatYellow hover:text-idatDark text-white p-2.5 rounded-full transition-all duration-200 shadow disabled:opacity-30 disabled:pointer-events-none" title="Siguiente Diapositiva">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+
+    <!-- Indicadores Rápidos Derecha -->
+    <div class="hidden lg:flex items-center gap-2 text-xs text-idatMuted">
+      <span class="font-bold">Teclado:</span>
+      <kbd class="px-2 py-0.5 bg-gray-100 border border-gray-300 rounded text-idatDark font-mono font-bold shadow-sm">←</kbd>
+      <kbd class="px-2 py-0.5 bg-gray-100 border border-gray-300 rounded text-idatDark font-mono font-bold shadow-sm">→</kbd>
+    </div>
+  </footer>
+
+  <!-- ============================================== -->
+  <!-- COMPORTAMIENTO INTERACTIVO (JAVASCRIPT) -->
+  <!-- ============================================== -->
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 10;
+
+    // Inicializar los puntos de paginación del footer
+    function initDots() {
+      const container = document.getElementById('dots-container');
+      container.innerHTML = '';
+      for (let i = 1; i <= totalSlides; i++) {
+        const dot = document.createElement('button');
+        dot.className = `w-2.5 h-2.5 rounded-full transition-all duration-300 ${i === 1 ? 'bg-idatYellow ring-2 ring-idatDark w-4' : 'bg-gray-300 hover:bg-gray-400'}`;
+        dot.title = `Ir a Diapositiva ${i}`;
+        dot.onclick = () => jumpToSlide(i);
+        container.appendChild(dot);
+      }
+    }
+
+    // Saltar a una diapositiva en particular
+    function jumpToSlide(num) {
+      if (num < 1 || num > totalSlides) return;
+      
+      document.getElementById(`slide-${currentSlide}`).classList.remove('active');
+      document.getElementById(`slide-${currentSlide}`).classList.add('hidden');
+      
+      currentSlide = num;
+      document.getElementById(`slide-${currentSlide}`).classList.remove('hidden');
+      document.getElementById(`slide-${currentSlide}`).classList.add('active');
+      
+      updateUI();
+    }
+
+    function changeSlide(direction) {
+      const target = currentSlide + direction;
+      jumpToSlide(target);
+    }
+
+    function updateUI() {
+      document.getElementById('current-slide-num').innerText = currentSlide;
+      document.getElementById('total-slides-num').innerText = totalSlides;
+
+      document.getElementById('btn-prev').disabled = currentSlide === 1;
+      document.getElementById('btn-next').disabled = currentSlide === totalSlides;
+
+      const dots = document.getElementById('dots-container').children;
+      for (let i = 0; i < dots.length; i++) {
+        const index = i + 1;
+        if (index === currentSlide) {
+          dots[i].className = 'w-4 h-2.5 rounded-full transition-all duration-300 bg-idatYellow ring-2 ring-idatDark';
+        } else {
+          dots[i].className = 'w-2.5 h-2.5 rounded-full transition-all duration-300 bg-gray-300 hover:bg-gray-400';
+        }
+      }
+    }
+
+    // Eventos de teclas para cambio de diapositivas
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'Space') {
+        changeSlide(1);
+      } else if (e.key === 'ArrowLeft') {
+        changeSlide(-1);
+      }
+    });
+
+    // ==========================================================
+    // SANDBOXES DE INTERACTIVIDADES EN VIVO - SESIÓN 18
+    // ==========================================================
+
+    // 1. Sandbox de CSS Grid (Diapositiva 4)
+    function updateGridLayout(columnsValue, activeBtnId) {
+      const container = document.getElementById('slide4-grid-container');
+      const cssLabel = document.getElementById('lbl-grid-css');
+
+      // Modificar columnas de la grilla en vivo
+      container.style.gridTemplateColumns = columnsValue;
+
+      // Reiniciar clases de botones
+      document.getElementById('btn-g-3').className = "bg-white border border-gray-200 text-idatDark p-2.5 rounded-xl font-bold hover:bg-gray-50 transition-all text-left";
+      document.getElementById('btn-g-mixed').className = "bg-white border border-gray-200 text-idatDark p-2.5 rounded-xl font-bold hover:bg-gray-50 transition-all text-left";
+      document.getElementById('btn-g-2').className = "bg-white border border-gray-200 text-idatDark p-2.5 rounded-xl font-bold hover:bg-gray-50 transition-all text-left";
+
+      // Activar el botón clicado
+      const activeBtn = document.getElementById(activeBtnId);
+      activeBtn.className = "bg-idatDark text-white p-2.5 rounded-xl font-bold transition-all text-left";
+
+      // Actualizar label de código
+      cssLabel.innerText = `grid-template-columns: ${columnsValue};`;
+    }
+
+    // 2. Sandbox de Media Queries (Diapositiva 6) - Implementado con Mobile-First y breakpoint de 1020px
+    function updateMediaQuerySimulator(device, activeBtnId) {
+      const viewportSim = document.getElementById('slide6-viewport-sim');
+      const simLayout = document.getElementById('slide6-layout');
+      const lblWidth = document.getElementById('lbl-viewport-width');
+      const lblCss = document.getElementById('lbl-mq-css');
+
+      // Reiniciar estados estéticos de los botones
+      document.getElementById('btn-mq-mobile').className = "bg-white border border-gray-200 text-idatDark p-2.5 rounded-xl font-bold transition-all text-left flex justify-between items-center";
+      document.getElementById('btn-mq-tablet').className = "bg-white border border-gray-200 text-idatDark p-2.5 rounded-xl font-bold transition-all text-left flex justify-between items-center";
+      document.getElementById('btn-mq-desktop').className = "bg-white border border-gray-200 text-idatDark p-2.5 rounded-xl font-bold transition-all text-left flex justify-between items-center";
+
+      // Iluminar botón activo
+      document.getElementById(activeBtnId).className = "bg-idatDark text-white p-2.5 rounded-xl font-bold transition-all text-left flex justify-between items-center";
+
+      if (device === 'mobile') {
+        viewportSim.style.maxWidth = '280px';
+        simLayout.className = "flex flex-col gap-3 w-full justify-center";
+        simLayout.innerHTML = `
+          <div class="bg-idatYellow text-idatDark font-black p-2 rounded-lg text-[10px] text-center w-full h-14 flex items-center justify-center">Producto A</div>
+          <div class="bg-idatDark text-white font-black p-2 rounded-lg text-[10px] text-center w-full h-14 flex items-center justify-center">Producto B</div>
+          <div class="bg-idatYellow text-idatDark font-black p-2 rounded-lg text-[10px] text-center w-full h-14 flex items-center justify-center">Producto C</div>
+        `;
+        lblWidth.innerText = "Simulando Móvil (Ancho < 768px)";
+        lblCss.innerText = `/* CSS Base (Móvil por defecto) */\n.layout {\n  display: flex;\n  flex-direction: column;\n}`;
+      } else if (device === 'tablet') {
+        viewportSim.style.maxWidth = '420px';
+        simLayout.className = "flex flex-row flex-wrap gap-2 w-full justify-center";
+        simLayout.innerHTML = `
+          <div class="bg-idatYellow text-idatDark font-black p-2 rounded-lg text-[10px] text-center w-[47%] h-14 flex items-center justify-center">Producto A</div>
+          <div class="bg-idatDark text-white font-black p-2 rounded-lg text-[10px] text-center w-[47%] h-14 flex items-center justify-center">Producto B</div>
+          <div class="bg-idatYellow text-idatDark font-black p-2 rounded-lg text-[10px] text-center w-full h-14 flex items-center justify-center">Producto C</div>
+        `;
+        lblWidth.innerText = "Simulando Tablet (Ancho 768px - 1019px)";
+        lblCss.innerText = `/* Escalamiento Progresivo Medio */\n@media (min-width: 768px) {\n  .layout {\n    flex-direction: row;\n    flex-wrap: wrap;\n  }\n}`;
+      } else { // Desktop >= 1020px
+        viewportSim.style.maxWidth = '100%';
+        simLayout.className = "flex flex-row gap-3 w-full justify-center";
+        simLayout.innerHTML = `
+          <div class="bg-idatYellow text-idatDark font-black p-2 rounded-lg text-[10px] text-center flex-1 h-14 flex items-center justify-center">Producto A</div>
+          <div class="bg-idatDark text-white font-black p-2 rounded-lg text-[10px] text-center flex-1 h-14 flex items-center justify-center">Producto B</div>
+          <div class="bg-idatYellow text-idatDark font-black p-2 rounded-lg text-[10px] text-center flex-1 h-14 flex items-center justify-center">Producto C</div>
+        `;
+        lblWidth.innerText = "Simulando Escritorio Ampliado (Ancho >= 1020px)";
+        lblCss.innerText = `/* Escalamiento Ampliado a 3 Columnas */\n@media (min-width: 1020px) {\n  .layout {\n    flex-direction: row;\n    flex-wrap: nowrap;\n  }\n}`;
+      }
+    }
+
+    // 3. Sandbox de Bootstrap (Diapositiva 8)
+    function updateBootstrapSimulator(layoutType, activeBtnId) {
+      const rowContainer = document.getElementById('slide8-boot-row');
+      const lblBootCss = document.getElementById('lbl-boot-css');
+
+      // Limpiar contenido previo de la fila simulada
+      rowContainer.innerHTML = '';
+
+      // Reiniciar clases estéticas de los botones de selección
+      document.getElementById('btn-g-3col').className = "bg-white border border-gray-200 text-idatDark p-2.5 rounded-xl font-bold hover:bg-gray-50 transition-all text-left flex justify-between items-center text-xs";
+      document.getElementById('btn-g-2col').className = "bg-white border border-gray-200 text-idatDark p-2.5 rounded-xl font-bold hover:bg-gray-50 transition-all text-left flex justify-between items-center text-xs";
+      document.getElementById('btn-g-mix').className = "bg-white border border-gray-200 text-idatDark p-2.5 rounded-xl font-bold hover:bg-gray-50 transition-all text-left flex justify-between items-center text-xs";
+
+      if (layoutType === 'three-equal') {
+        document.getElementById('btn-g-3col').className = "bg-idatDark text-white p-2.5 rounded-xl font-bold transition-all text-left flex justify-between items-center text-xs";
+        
+        rowContainer.innerHTML = `
+          <div class="bg-idatYellow text-idatDark font-black p-3 rounded-lg shadow-sm text-xs text-center flex flex-col items-center justify-center h-16 w-1/3 transition-all duration-300">
+            <span>Caja A</span>
+            <span class="text-[8px] opacity-75 font-mono">.col-md-4</span>
+          </div>
+          <div class="bg-idatDark text-white font-black p-3 rounded-lg shadow-sm text-xs text-center flex flex-col items-center justify-center h-16 w-1/3 transition-all duration-300">
+            <span>Caja B</span>
+            <span class="text-[8px] opacity-75 font-mono">.col-md-4</span>
+          </div>
+          <div class="bg-idatYellow text-idatDark font-black p-3 rounded-lg shadow-sm text-xs text-center flex flex-col items-center justify-center h-16 w-1/3 transition-all duration-300">
+            <span>Caja C</span>
+            <span class="text-[8px] opacity-75 font-mono">.col-md-4</span>
+          </div>
+        `;
+        lblBootCss.innerHTML = `&lt;div class="col-md-4"&gt; ... &lt;/div&gt; (x3)`;
+      } else if (layoutType === 'two-equal') {
+        document.getElementById('btn-g-2col').className = "bg-idatDark text-white p-2.5 rounded-xl font-bold transition-all text-left flex justify-between items-center text-xs";
+        
+        rowContainer.innerHTML = `
+          <div class="bg-idatYellow text-idatDark font-black p-3 rounded-lg shadow-sm text-xs text-center flex flex-col items-center justify-center h-16 w-1/2 transition-all duration-300">
+            <span>Caja A</span>
+            <span class="text-[8px] opacity-75 font-mono">.col-md-6</span>
+          </div>
+          <div class="bg-idatDark text-white font-black p-3 rounded-lg shadow-sm text-xs text-center flex flex-col items-center justify-center h-16 w-1/2 transition-all duration-300">
+            <span>Caja B</span>
+            <span class="text-[8px] opacity-75 font-mono">.col-md-6</span>
+          </div>
+        `;
+        lblBootCss.innerHTML = `&lt;div class="col-md-6"&gt; ... &lt;/div&gt; (x2)`;
+      } else if (layoutType === 'asymmetric') {
+        document.getElementById('btn-g-mix').className = "bg-idatDark text-white p-2.5 rounded-xl font-bold transition-all text-left flex justify-between items-center text-xs";
+        
+        rowContainer.innerHTML = `
+          <div class="bg-idatYellow text-idatDark font-black p-3 rounded-lg shadow-sm text-xs text-center flex flex-col items-center justify-center h-16 w-2/3 transition-all duration-300">
+            <span>Caja Principal</span>
+            <span class="text-[8px] opacity-75 font-mono">.col-md-8</span>
+          </div>
+          <div class="bg-idatDark text-white font-black p-3 rounded-lg shadow-sm text-xs text-center flex flex-col items-center justify-center h-16 w-1/3 transition-all duration-300">
+            <span>Lateral</span>
+            <span class="text-[8px] opacity-75 font-mono">.col-md-4</span>
+          </div>
+        `;
+        lblBootCss.innerHTML = `&lt;div class="col-md-8"&gt; ... &lt;/div&gt;<br>&lt;div class="col-md-4"&gt; ... &lt;/div&gt;`;
+      }
+    }
+
+    // Inicializar configuraciones al cargar el DOM
+    window.onload = function() {
+      initDots();
+      updateUI();
+    };
+  </script>
+</body>
+</html>
